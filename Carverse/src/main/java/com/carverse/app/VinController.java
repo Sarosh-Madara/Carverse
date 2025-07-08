@@ -13,8 +13,16 @@ import java.util.List;
 public class VinController {
 
     @GetMapping("/vin")
-    public String getVin(@RequestParam String vin) {
-        return "Vin is decoding..." + vin;
+    public Map<String, Object> getVin(@RequestParam(required = false) String vin) {
+        Map<String, Object> response = new HashMap<>();
+        if (vin == null || vin.trim().isEmpty()) {
+            response.put("error", "VIN parameter is required");
+            response.put("status", 400);
+            return response;
+        }
+        response.put("message", "Vin is decoding..." + vin);
+        response.put("status", 200);
+        return response;
     }
 
     @GetMapping("/vin/decode")
